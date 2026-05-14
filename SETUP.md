@@ -4,7 +4,7 @@ This guide walks you through setting up AgentBench for evaluating your AI agents
 
 ## Prerequisites
 
-- **Python 3.9 or higher**
+- **Python 3.14-compatible virtual environment**
 - **pip** (usually included with Python)
 - An **AI agent endpoint** (HTTP URL) to evaluate
 
@@ -32,23 +32,31 @@ source .venv/bin/activate
 ### Install Dependencies
 
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 Verify installation:
 
 ```bash
-python -c "import fastapi, streamlit; print('✓ Dependencies installed')"
+python -c "import fastapi, streamlit, openai; print('✓ Dependencies installed')"
 ```
 
 ## Step 2: Configure Your Agent
 
-Set your AI agent's URL as an environment variable:
+Set your upstream agent or agentic workflow URL for the local vendor adapter:
 
 ```bash
-export AGENTBENCH_VENDOR_URL="https://your-agent-endpoint-here"
+export UPSTREAM_AGENT_URL="https://your-agent-endpoint-here"
 export AGENTBENCH_AGENT_CATEGORY="chat_only"  # or: rag_based, code_generation, autonomous, etc.
 ```
+
+Start the local adapter in another terminal:
+
+```bash
+uvicorn app.copilot_vendor_adapter:app --host 127.0.0.1 --port 9010
+```
+
+Then keep the dashboard Agent Endpoint set to `http://127.0.0.1:9010/infer`.
 
 **Supported Categories:**
 
@@ -72,13 +80,15 @@ This starts all three services automatically.
 
 ### Option B: Manual Startup (3 Terminals)
 
-#### Terminal 1 - Vendor Adapter (Optional - skip if using direct URL)
+#### Terminal 1 - Vendor Adapter
 
 ```bash
 uvicorn app.copilot_vendor_adapter:app --host 127.0.0.1 --port 9010
 ```
 
 Expected output: `INFO: Uvicorn running on http://127.0.0.1:9010`
+
+The adapter reads `UPSTREAM_AGENT_URL` first, then the legacy `COPILOT_AGENT_URL`, and forwards prompts to your upstream agent or workflow.
 
 #### Terminal 2 - API Service
 
@@ -91,7 +101,7 @@ Expected output: `INFO: Uvicorn running on http://127.0.0.1:8000`
 #### Terminal 3 - Dashboard
 
 ```bash
-streamlit run dashboard/app.py
+python -m streamlit run dashboard/app.py
 ```
 
 Expected output: `You can now view your Streamlit app in your browser.`
@@ -100,7 +110,7 @@ Expected output: `You can now view your Streamlit app in your browser.`
 
 ### Via Dashboard
 
-1. Open http://127.0.0.1:8501 in your browser
+1. Open [http://127.0.0.1:8501](http://127.0.0.1:8501) in your browser
 2. Enter your agent details
 3. Select a framework (AIUC, OWASP, NIST AI RMF)
 4. Click "Run Assessment"
@@ -109,13 +119,12 @@ Expected output: `You can now view your Streamlit app in your browser.`
 ### Via API
 
 ```bash
-curl -X POST http://localhost:8000/api/assessments \
+curl -X POST http://localhost:8000/assess \
   -H "Content-Type: application/json" \
   -d '{
-    "vendor_id": "copilot",
-    "vendor_url": "https://your-agent-url",
+    "vendor_endpoint": "https://your-agent-url",
     "agent_category": "chat_only",
-    "test_depth": "full"
+    "include_optional": true
   }'
 ```
 
@@ -184,9 +193,11 @@ taskkill /PID <PID> /F
 source .venv/bin/activate
 
 # Reinstall dependencies
-pip install --upgrade pip
-pip install -r requirements.txt --force-reinstall
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt --force-reinstall
 ```
+
+The API service imports `openai` at startup. If `uvicorn app.main:app` fails with `ModuleNotFoundError: No module named 'openai'`, reinstall the requirements inside the active virtual environment.
 
 ### Agent Connection Issues
 
@@ -202,8 +213,10 @@ pip install -r requirements.txt --force-reinstall
 rm -rf ~/.streamlit/cache
 
 # Restart dashboard
-streamlit run dashboard/app.py --logger.level=debug
+python -m streamlit run dashboard/app.py --logger.level=debug
 ```
+
+The dashboard uses the API URL in the sidebar to load the control catalog. The default is `http://127.0.0.1:8000`, so start the API service first or update the sidebar URL to match your backend.
 
 ## Next Steps
 
@@ -219,7 +232,7 @@ Key environment variables for configuration:
 
 ```bash
 # Agent configuration
-AGENTBENCH_VENDOR_URL=https://your-agent-url
+UPSTREAM_AGENT_URL=https://your-agent-url
 AGENTBENCH_AGENT_CATEGORY=chat_only
 
 # Service ports (optional)
@@ -235,12 +248,14 @@ AGENTBENCH_DB_PATH=./agentbench.db
 
 Once the API is running, view interactive API docs at:
 
-- Swagger UI: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc
+- Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
+- ReDoc: [http://localhost:8000/redoc](http://localhost:8000/redoc)
+- Control catalog: `GET /controls`
+- Assessments: `POST /assess`
 
 ## Directory Layout After Setup
 
-```
+```text
 agentbench/
 ├── .venv/                   # Virtual environment (created)
 ├── app/                     # API code

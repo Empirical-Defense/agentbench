@@ -142,6 +142,11 @@ def _format_rate(value: Any) -> str:
         return "N/A"
 
 
+def _default_agent_endpoint() -> str:
+    """Default to the local vendor adapter unless the user overrides it in the UI."""
+    return "http://127.0.0.1:9010/infer"
+
+
 
 st.set_page_config(page_title="AgentBench", page_icon="images/icon.png", layout="wide")
 st.title("AgentBench — Control Validation")
@@ -155,7 +160,7 @@ st.caption("Evaluate whether AI agent controls hold under test conditions")
 with st.sidebar:
     st.header("Run Settings")
     api_base_url = st.text_input("API URL", value="http://127.0.0.1:8000", key="api_url_input")
-    vendor_endpoint = st.text_input("Agent Endpoint", value="http://127.0.0.1:9010/infer", key="agent_endpoint_input")
+    vendor_endpoint = st.text_input("Agent Endpoint", value=_default_agent_endpoint(), key="agent_endpoint_input")
     agent_category = st.selectbox(
         "Agent Category",
         options=["chat_only", "rag_based", "code_generation", "autonomous", "domain_specific", "offline"],

@@ -104,6 +104,11 @@ def _build_upstream_payload(prompt: str) -> dict[str, Any]:
 app = FastAPI(title="AgentBench Copilot Vendor Adapter", version="0.1.0")
 
 
+def _resolve_upstream_url() -> str | None:
+    """Resolve the upstream agent/workflow URL, keeping the legacy Copilot name supported."""
+    return os.getenv("UPSTREAM_AGENT_URL") or os.getenv("COPILOT_AGENT_URL")
+
+
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
@@ -111,9 +116,9 @@ def health() -> dict[str, str]:
 
 @app.post("/infer")
 def infer(payload: PromptRequest) -> dict[str, str]:
-    upstream_url = os.getenv("COPILOT_AGENT_URL")
+    upstream_url = _resolve_upstream_url()
     if not upstream_url:
-        raise HTTPException(status_code=500, detail="COPILOT_AGENT_URL is not set")
+        raise HTTPException(status_code=500, detail="UPSTREAM_AGENT_URL or COPILOT_AGENT_URL is not set")
 
     timeout_seconds = int(os.getenv("COPILOT_TIMEOUT_SECONDS", "60"))
 

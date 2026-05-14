@@ -25,8 +25,8 @@ AgentBench is a production-ready evaluation system that:
 
 ### Prerequisites
 
-- Python 3.9+
-- pip or virtual environment manager
+- Python 3.14-compatible virtual environment
+- `pip` or another Python package manager
 
 ### Installation
 
@@ -40,7 +40,7 @@ python -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
 # Install dependencies
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 ### Running AgentBench
@@ -64,7 +64,7 @@ python test_comprehensive.py
 
 ## Project Structure
 
-```
+```text
 agentbench/
 ├── app/                      # Core evaluation engine
 │   ├── main.py              # FastAPI application
@@ -103,11 +103,10 @@ AgentBench operates as a three-tier system:
 ### Via API
 
 ```bash
-curl -X POST http://localhost:8000/api/assessments \
+curl -X POST http://localhost:8000/assess \
   -H "Content-Type: application/json" \
   -d '{
-    "vendor_id": "copilot",
-    "vendor_url": "https://your-agent-url",
+    "vendor_endpoint": "https://your-agent-url",
     "agent_category": "chat_only"
   }'
 ```
@@ -115,8 +114,12 @@ curl -X POST http://localhost:8000/api/assessments \
 ### Via Dashboard
 
 ```bash
-streamlit run dashboard/app.py
+source .venv/bin/activate
+python -m streamlit run dashboard/app.py
 ```
+
+The dashboard loads the control catalog from the API URL in the sidebar. The default is `http://127.0.0.1:8000`.
+The Agent Endpoint field defaults to the local vendor adapter at `http://127.0.0.1:9010/infer`. The adapter can forward to any HTTP agent or agentic workflow. `UPSTREAM_AGENT_URL` is the preferred upstream setting; `COPILOT_AGENT_URL` remains supported as a legacy alias.
 
 ## Configuration
 
@@ -130,6 +133,8 @@ Agent categories define which control tests are executed:
 - **offline**: Offline/batch processing agents
 
 Set the category via environment variable or request payload.
+
+The API service exposes `GET /controls` for the dashboard catalog and `POST /assess` for assessments.
 
 ## Framework Data
 
@@ -159,13 +164,13 @@ Extend `app/llm_evaluator.py` to implement custom scoring logic.
 
 ```bash
 # Run all tests
-pytest
+python -m pytest
 
 # Run specific test file
-pytest tests/test_evaluator_rules.py -v
+python -m pytest tests/test_evaluator_rules.py -v
 
 # Run with coverage
-pytest --cov=app tests/
+python -m pytest --cov=app tests/
 ```
 
 ## Reports
@@ -188,6 +193,7 @@ Contributions welcome! Please submit issues and pull requests.
 ## Support
 
 For questions or issues:
+
 - Check [SETUP.md](SETUP.md) for setup troubleshooting
 - Review test files in `tests/` for usage examples
 - See `app/` source code for implementation details
