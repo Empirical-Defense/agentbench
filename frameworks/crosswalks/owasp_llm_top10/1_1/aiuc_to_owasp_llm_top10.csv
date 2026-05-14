@@ -1,0 +1,52 @@
+aiuc_control_id,aiuc_control_family,owasp_llm_risk_id,owasp_llm_risk_title,owasp_llm_version,mapping_strength,mapping_rationale
+A001,A,LLM06,Sensitive Information Disclosure,1.1,medium,Input data policy and retention controls reduce unintended disclosure risk.
+A002,A,LLM06,Sensitive Information Disclosure,1.1,medium,Output ownership and deletion policy supports safe handling of sensitive outputs.
+A003,A,LLM06,Sensitive Information Disclosure,1.1,high,Data minimization and privacy controls directly reduce sensitive data exposure.
+A004,A,LLM06,Sensitive Information Disclosure,1.1,high,Scope and access boundaries reduce cross-tenant and unauthorized data disclosure.
+A005,A,LLM06,Sensitive Information Disclosure,1.1,medium,Combined-data consent and controls reduce privacy leakage risk.
+A006,A,LLM01,Prompt Injection,1.1,high,System prompt and instruction disclosure protections directly address prompt-injection abuse.
+A007,A,LLM06,Sensitive Information Disclosure,1.1,high,PII and confidential output filtering maps directly to disclosure prevention.
+B001,B,LLM01,Prompt Injection,1.1,high,Adversarial and injection-resilience testing targets direct and indirect prompt injection.
+B002,B,LLM03,Training Data Poisoning,1.1,high,Poisoning and data-integrity controls align with training data poisoning risk.
+B003,B,LLM10,Model Theft,1.1,medium,Model protection and extraction resistance reduce theft and replication exposure.
+B004,B,LLM05,Supply Chain Vulnerabilities,1.1,high,Dependency and artifact integrity controls map to supply-chain vulnerability prevention.
+B005,B,LLM04,Model DoS,1.1,high,Rate limiting and abuse controls align with resource exhaustion and DoS risk.
+B006,B,LLM07,Insecure Plugin Design,1.1,high,Tool and plugin boundary authorization controls map directly to plugin design risk.
+B007,B,LLM10,Model Theft,1.1,medium,Runtime/deployment hardening and access controls reduce model theft pathways.
+B008,B,LLM02,Insecure Output Handling,1.1,high,Output handling and sanitization controls directly mitigate insecure output usage.
+B009,B,LLM08,Excessive Agency,1.1,high,Capability scoping and action restrictions reduce excessive autonomous behavior.
+C002.1,C,LLM02,Insecure Output Handling,1.1,high,Harmful output filtering and moderation align with insecure output handling.
+C002.2,C,LLM02,Insecure Output Handling,1.1,high,Harmful output filtering and moderation align with insecure output handling.
+C002.3,C,LLM02,Insecure Output Handling,1.1,high,Harmful output filtering and moderation align with insecure output handling.
+C003,C,LLM08,Excessive Agency,1.1,high,Unauthorized action prevention and bounded autonomy map to excessive agency.
+C004,C,LLM01,Prompt Injection,1.1,medium,Prompt and context controls reduce instruction hijacking and unsafe override behavior.
+C005.1,C,LLM01,Prompt Injection,1.1,high,Input filtering and injection detection directly mitigate prompt injection vectors.
+C005.2,C,LLM01,Prompt Injection,1.1,high,Input filtering and injection detection directly mitigate prompt injection vectors.
+C005.3,C,LLM01,Prompt Injection,1.1,high,Input filtering and injection detection directly mitigate prompt injection vectors.
+C006,C,LLM07,Insecure Plugin Design,1.1,medium,Tool invocation safeguards and authorization checks reduce plugin misuse.
+C007.2,C,LLM08,Excessive Agency,1.1,medium,Escalation and override governance constrains excessive autonomous actions.
+C008.1,C,LLM08,Excessive Agency,1.1,high,Human-in-the-loop approvals for critical actions limit excessive agency.
+C008.2,C,LLM08,Excessive Agency,1.1,high,Human-in-the-loop approvals for critical actions limit excessive agency.
+C008.4,C,LLM08,Excessive Agency,1.1,high,Human-in-the-loop approvals for critical actions limit excessive agency.
+C009.1,C,LLM02,Insecure Output Handling,1.1,medium,Safety intervention and review process improves downstream output handling.
+D001,D,LLM09,Overreliance,1.1,high,Factuality and uncertainty controls reduce unsafe overreliance on model output.
+D003,D,LLM09,Overreliance,1.1,medium,Transparency and explainability support calibrated user trust and verification.
+E004,E,LLM08,Excessive Agency,1.1,medium,Accountability for agent actions reinforces constraints on autonomous behavior.
+E004.2,E,LLM08,Excessive Agency,1.1,medium,Change approval and governance reduce uncontrolled agency expansion.
+E009.1,E,LLM05,Supply Chain Vulnerabilities,1.1,medium,Third-party review and validation reduce supply-chain and dependency risk.
+E010.2,E,LLM05,Supply Chain Vulnerabilities,1.1,medium,Lifecycle controls and deployment governance reduce supply-chain exposure.
+E010.3,E,LLM05,Supply Chain Vulnerabilities,1.1,medium,Lifecycle controls and deployment governance reduce supply-chain exposure.
+E010.4,E,LLM05,Supply Chain Vulnerabilities,1.1,medium,Lifecycle controls and deployment governance reduce supply-chain exposure.
+E013.3,E,LLM04,Model DoS,1.1,low,Operational resilience and incident process partially support DoS response.
+E015.1,E,LLM06,Sensitive Information Disclosure,1.1,medium,Incident response and containment procedures reduce disclosure impact.
+E015.2,E,LLM06,Sensitive Information Disclosure,1.1,medium,Incident response and containment procedures reduce disclosure impact.
+E015.3,E,LLM06,Sensitive Information Disclosure,1.1,medium,Incident response and containment procedures reduce disclosure impact.
+E016.1,E,LLM09,Overreliance,1.1,low,Governance reviews and control assurance indirectly reduce overreliance risk.
+E016.2,E,LLM09,Overreliance,1.1,low,Governance reviews and control assurance indirectly reduce overreliance risk.
+E016.3,E,LLM09,Overreliance,1.1,low,Governance reviews and control assurance indirectly reduce overreliance risk.
+E016.4,E,LLM09,Overreliance,1.1,low,Governance reviews and control assurance indirectly reduce overreliance risk.
+E016.5,E,LLM09,Overreliance,1.1,low,Governance reviews and control assurance indirectly reduce overreliance risk.
+E017,E,LLM08,Excessive Agency,1.1,low,Formal governance and control ownership provide agency guardrails indirectly.
+E017.2,E,LLM08,Excessive Agency,1.1,low,Formal governance and control ownership provide agency guardrails indirectly.
+F001,F,LLM09,Overreliance,1.1,high,User disclosure and limitations messaging directly target overreliance risk.
+F002,F,LLM09,Overreliance,1.1,high,AI interaction disclosure and transparency reduce misplaced trust in outputs.

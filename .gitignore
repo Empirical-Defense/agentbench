@@ -1,0 +1,73 @@
+# Virtual Environment
+.venv/
+venv/
+env/
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Reports and logs
+reports/*.json
+logs/
+*.log
+
+# Streamlit
+.streamlit/
+streamlit_app.log
+
+# OS
+.DS_Store
+Thumbs.db
+*.bak
+
+# Node (if using dashboard extensions)
+node_modules/
+package-lock.json
+
+# Misc
+.cache/
+tmp/
+temp/
